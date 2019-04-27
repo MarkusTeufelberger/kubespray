@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all:!squiddlebox
+  gather_facts: no
+  roles:
+    - role: bootstrap-os
+      vars:
+        http_proxy: http://192.168.13.37:3128
+        https_proxy: http://192.168.13.37:3128

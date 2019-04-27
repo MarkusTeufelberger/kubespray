@@ -1,0 +1,33 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+  options:
+    config-file: ../../.yamllint
+platforms:
+  - name: debian-8
+    box: debian/jessie64
+    cpus: 2
+    memory: 2048
+  - name: debian-9
+    box: debian/stretch64
+    cpus: 2
+    memory: 2048
+  # Buster is currently still in "testing" phase
+  - name: debian-10
+    box: debian/buster64
+    cpus: 2
+    memory: 2048
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: goss
+  lint:
+    name: yamllint

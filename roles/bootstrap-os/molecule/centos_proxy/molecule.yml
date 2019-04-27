@@ -1,0 +1,50 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+  options:
+    config-file: ../../.yamllint
+platforms:
+  # proxy host
+  - name: squiddlebox
+    box: bento/ubuntu-18.04
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.37
+  # CentOS 6 is not supported by Kubespray
+  # - name: centos-6
+  #   box: centos/6
+  #   cpus: 2
+  #   memory: 2048
+  #   interfaces:
+  #     - network_name: private_network
+  #       ip: 192.168.13.10
+  - name: centos-7
+    box: centos/7
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.20
+  - name: centos-atomic-host
+    box: centos/atomic-host
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.30
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: goss
+  lint:
+    name: yamllint

@@ -1,0 +1,50 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+  options:
+    config-file: ../../.yamllint
+platforms:
+  # proxy host
+  - name: squiddlebox
+    box: bento/ubuntu-18.04
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.37
+  # 42.3 fails get_url https calls even with python-cryptography installed
+  # - name: opensuse-42-3
+  #   box: opensuse/openSUSE-42.3-x86_64
+  #   cpus: 2
+  #   memory: 2048
+  #   interfaces:
+  #     - network_name: private_network
+  #       ip: 192.168.13.10
+  - name: opensuse-15
+    box: opensuse/openSUSE-15.0-x86_64
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.20
+  - name: opensuse-tumbleweed
+    box: opensuse/openSUSE-Tumbleweed-x86_64
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.30
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: goss
+  lint:
+    name: yamllint

@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+  options:
+    config-file: ../../.yamllint
+platforms:
+  # proxy host
+  - name: squiddlebox
+    box: bento/ubuntu-18.04
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.37
+  # Just latest Ubuntu LTS
+  - name: ubuntu-1804
+    box: bento/ubuntu-18.04
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.10
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: goss
+  lint:
+    name: yamllint

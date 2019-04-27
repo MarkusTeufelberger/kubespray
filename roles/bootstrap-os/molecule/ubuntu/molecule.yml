@@ -1,0 +1,40 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+  options:
+    config-file: ../../.yamllint
+platforms:
+  # Use boxes from the "bento" project instead of "ubuntu" ones
+  # The official ones open a serial port, boot slowly and write to protected folders
+  #
+  # Trusty is not supported by Kubespray
+  # - name: ubuntu-1404
+  #   box: bento/ubuntu-14.04
+  #   cpus: 2
+  #   memory: 2048
+  - name: ubuntu-1604
+    box: bento/ubuntu-16.04
+    cpus: 2
+    memory: 2048
+  - name: ubuntu-1804
+    box: bento/ubuntu-18.04
+    cpus: 2
+    memory: 2048
+  - name: ubuntu-1810
+    box: bento/ubuntu-18.10
+    cpus: 2
+    memory: 2048
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: goss
+  lint:
+    name: yamllint

@@ -1,0 +1,8 @@
+# Molecule managed
+
+---
+command:
+  # python should exist on the $PATH
+  python --version:
+    exit-status: 0
+    stderr: []

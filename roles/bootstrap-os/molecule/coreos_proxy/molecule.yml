@@ -1,0 +1,69 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+  options:
+    config-file: ../../.yamllint
+platforms:
+  # proxy host
+  - name: squiddlebox
+    box: bento/ubuntu-18.04
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.37
+  # make sure to NOT use the coreos_production_vagrant_virtualbox.json box urls
+  # these don't seem to have the vagrant default SSH key enabled
+  - name: coreos-alpha
+    box: coreos-alpha
+    box_url: "https://alpha.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json"
+    config_options:
+      ssh.insert_key: false
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.10
+  - name: coreos-beta
+    box: coreos-beta
+    box_url: "https://beta.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json"
+    config_options:
+      ssh.insert_key: false
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.20
+  - name: coreos-stable
+    box: coreos-stable
+    box_url: "https://stable.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json"
+    config_options:
+      ssh.insert_key: false
+    cpus: 2
+    memory: 2048
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.13.30
+provisioner:
+  name: ansible
+  # CoreOS has a non-standard interpreter location
+  inventory:
+    host_vars:
+      coreos-alpha:
+        ansible_python_interpreter: /opt/bin/python
+      coreos-beta:
+        ansible_python_interpreter: /opt/bin/python
+      coreos-stable:
+        ansible_python_interpreter: /opt/bin/python
+  lint:
+    name: ansible-lint
+verifier:
+  name: goss
+  lint:
+    name: yamllint
