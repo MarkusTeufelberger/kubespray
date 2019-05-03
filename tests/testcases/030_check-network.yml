@@ -10,7 +10,8 @@
       bin_dir: "/opt/bin"
     when: ansible_os_family in ["CoreOS", "Container Linux by CoreOS"]
 
-  - set_fact:
+  - name: Set bin_dir
+    set_fact:
       bin_dir: "/usr/local/bin"
     when: not ansible_os_family in ["CoreOS", "Container Linux by CoreOS"]
 
@@ -60,7 +61,8 @@
 
   - debug: msg="{{ get_pods.stdout.split('\n') }}"
 
-  - set_fact:
+  - name: Set variables
+    set_fact:
       kube_pods_subnet: 10.233.64.0/18
       pod_names: "{{ (pods.stdout | from_json)['items'] | map(attribute = 'metadata.name') | list }}"
       pod_ips: "{{ (pods.stdout | from_json)['items'] | selectattr('status.podIP', 'defined') | map(attribute = 'status.podIP') | list }}"

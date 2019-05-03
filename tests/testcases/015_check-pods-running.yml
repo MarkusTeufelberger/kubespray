@@ -7,7 +7,8 @@
       bin_dir: "/opt/bin"
     when: ansible_os_family in ["CoreOS", "Container Linux by CoreOS"]
 
-  - set_fact:
+  - name: Set bin_dir
+    set_fact:
       bin_dir: "/usr/local/bin"
     when: not ansible_os_family in ["CoreOS", "Container Linux by CoreOS"]
 
